@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.*;
 
 /**
  * Class model for a FileInput (read)
@@ -84,4 +85,5 @@ public class FileInput {
             e.printStackTrace();
         }
     }
+
 }
