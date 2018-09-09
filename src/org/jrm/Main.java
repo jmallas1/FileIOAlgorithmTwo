@@ -16,13 +16,15 @@ public class Main {
         String[] fields;
         int[] nums = new int[2];
         float[] average = new float[1];
-        System.out.format("%8s  %-18s %6s %6s %6s\n","Account","Name", "Movies", "Points", "Average");
+        System.out.format("%8s  %-18s %6s %6s %6s\n","Account","Name", "Movies", "Points", "Average Review Rating");
         while ((line = cardAccts.fileReadLine()) != null) {
             fields = line.split(",");
             findPurchases(fields[0], nums);
             findAverageRating(fields[0], average);
             System.out.format("00%6s  %-18s  %2d   %4d     %.2f\n",fields[0],fields[1], nums[0], nums[1], average[0]);
         }
+        String someString = new String("you should be done now");
+        System.out.println(someString);
     }
 
     public static void findPurchases(String acct, int[] nums) {
@@ -31,16 +33,24 @@ public class Main {
         String line;
         String[] fields;
         boolean done = false;
-        while (((line = cardPurchases.fileReadLine()) != null) && !(done)) {
-            fields = line.split(",");
-            if (fields[0].compareTo(acct) > 0) {
-                done = true;
+        while (done != true)
+        {
+            while((line = cardPurchases.fileReadLine()) != null)
+            {
+                System.out.println(line);
+                fields = line.split(",");
+                if (fields[0].equals(acct))
+                {
+                    nums[0]++;
+                    nums[1] += Integer.parseInt(fields[2]);
+                }
+                else
+                {
+                    cardPurchases.backUpOneLine();
+                    done = true;
+                    break; // yes it's cheap, ugly, and downright undignified...
+                }
             }
-            else if (fields[0].equals(acct)) {
-                nums[0]++;
-                nums[1] += Integer.parseInt(fields[2]);
-            }
-
         }
     }
 
@@ -52,31 +62,33 @@ public class Main {
         String line;
         String[] fields;
         boolean done = false;
-        while((line = cardRatings.fileReadLine()) != null && !(done))
+
+        while(done != true)
         {
-            fields = line.split(",");
-            if (fields[0].compareTo(acct) > 0)
+            while((line = cardRatings.fileReadLine()) != null)
             {
-                // If the first field of the card rating file doesn't match the acct
-                // break out after calculating average rating...
-                if (rateData[0] > 0)
+                fields = line.split(",");
+                if(fields[0].equals(acct))
                 {
-                    average[0] = (float)rateData[1]/rateData[0];
+                    // if the account matches, increment the total reviews and add score
+                    rateData[0]++;
+                    rateData[1] += Integer.parseInt(fields[1]);
                 }
                 else
                 {
-                    average[0] = 0;
+                    // if it doesn't, calculate the average review score
+                    cardRatings.backUpOneLine();
+                    if(rateData[0] > 0) {
+                        average[0] = (float) rateData[1] / rateData[0];
+                    }
+                    else
+                    {
+                        average[0] = 0;
+                    }
+                    done = true;
+                    break;
                 }
-                done = true;
-            }
-            else if (fields[0].equals(acct))
-            {
-                // If the first field of the card rating matches acct
-                // increment movie nums (avgs[0]) and add to total rating
-                rateData[0]++;
-                rateData[1] += Integer.parseInt(fields[1]);
             }
         }
-
     }
 }

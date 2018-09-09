@@ -14,6 +14,7 @@ public class FileInput {
 
     private BufferedReader in = null;
     private String fileName;
+    private int BUFFER_SIZE = 1000;
 
     /**
      * Constructor for FileInput class. Takes a file name will throw exception if file does not exist or is unreadable.
@@ -46,13 +47,17 @@ public class FileInput {
      * read and return line of file
      * @return String representation of "the next line" in a file
      */
-    public String fileReadLine() {
+    public String fileReadLine()
+    {
+        String returnLine = null;
         try {
-            return in.readLine();
+            in.mark(BUFFER_SIZE); // #thanksStackOverflow!
+            returnLine = in.readLine();
         } catch (Exception e) {
             System.out.println("File Read Error: " + fileName + " " + e);
             return null;
         }
+        return returnLine;
     }
 
     /**
@@ -66,6 +71,17 @@ public class FileInput {
                 e.printStackTrace();
             }
         }
+    }
 
+    /**
+     * Attempt to set file pointer back to previous line
+     */
+    public void backUpOneLine()
+    {
+        try {
+            in.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
