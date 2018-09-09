@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class model for a FileInput (read)
@@ -83,5 +87,20 @@ public class FileInput {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String[] fileToArray()
+    {
+        return new String[0];
+    }
+
+    public Map fileToMap()
+    {
+        return new HashMap();
+    }
+
+    public List fileToList()
+    {
+        return new ArrayList();
     }
 }
