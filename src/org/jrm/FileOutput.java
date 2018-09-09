@@ -3,13 +3,19 @@ package org.jrm;
 import java.io.*;
 
 /**
- * Created by mgreen14 on 12/27/17.
+ * Class model for a FileOutput (write)
+ * @author mgreen14
+ * @version 1.0
  */
 public class FileOutput {
 
     Writer out = null;
     private String fileName;
 
+    /**
+     * Constructor fot FileOutput class
+     * @param fileName String representation of a full path to a writable file
+     */
     public FileOutput(String fileName) {
         this.fileName = fileName;
         try {
@@ -20,6 +26,10 @@ public class FileOutput {
         }
     }
 
+    /**
+     * Used to write the contents of a string to a file
+     * @param line String representation of what you want to write to the given file
+     */
     public void fileWrite(String line) {
         try {
             out.write(line+"\n");
@@ -29,6 +39,9 @@ public class FileOutput {
         }
     }
 
+    /**
+     * Closes file that is opened by constructor
+     */
     public void fileClose() {
         if (out != null) {
             try {
