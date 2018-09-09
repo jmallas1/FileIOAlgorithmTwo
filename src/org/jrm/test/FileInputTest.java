@@ -36,13 +36,4 @@ class FileInputTest {
         fi.backUpOneLine();
         assertEquals("package org.jrm.test;", fi.fileReadLine(), "Should still be the package line");
     }
-
-    @Test
-    void fileToArray() { assertFalse(true); }
-
-    @Test
-    void fileToMap() { assertFalse(true); }
-
-    @Test
-    void fileToList() { assertFalse(true); }
 }
