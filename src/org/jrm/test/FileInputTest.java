@@ -35,6 +35,5 @@ class FileInputTest {
         assertEquals("package org.jrm.test;", fi.fileReadLine(), "Should be the package line");
         fi.backUpOneLine();
         assertEquals("package org.jrm.test;", fi.fileReadLine(), "Should still be the package line");
-
     }
 }

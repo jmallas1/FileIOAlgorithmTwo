@@ -16,15 +16,17 @@ public class Main {
         String[] fields;
         int[] nums = new int[2];
         float[] average = new float[1];
-        System.out.format("%8s  %-18s %6s %6s %6s\n","Account","Name", "Movies", "Points", "Average Review Rating");
+        System.out.format("%8s  %-18s %6s %6s %6s\n","Account","Name", "Movies", "Points", "Average");
         while ((line = cardAccts.fileReadLine()) != null) {
             fields = line.split(",");
             findPurchases(fields[0], nums);
             findAverageRating(fields[0], average);
             System.out.format("00%6s  %-18s  %2d   %4d     %.2f\n",fields[0],fields[1], nums[0], nums[1], average[0]);
         }
-        String someString = new String("you should be done now");
-        System.out.println(someString);
+
+        cardAccts.fileClose();
+        cardPurchases.fileClose();
+        cardRatings.fileClose();
     }
 
     public static void findPurchases(String acct, int[] nums) {
@@ -35,21 +37,26 @@ public class Main {
         boolean done = false;
         while (done != true)
         {
-            while((line = cardPurchases.fileReadLine()) != null)
+            while(((line = cardPurchases.fileReadLine()) != null))
             {
-                System.out.println(line);
+                // System.out.println(line);
                 fields = line.split(",");
                 if (fields[0].equals(acct))
                 {
                     nums[0]++;
                     nums[1] += Integer.parseInt(fields[2]);
                 }
-                else
+                else if (!fields[0].equals(acct))
                 {
                     cardPurchases.backUpOneLine();
                     done = true;
                     break; // yes it's cheap, ugly, and downright undignified...
                 }
+            }
+
+            if (line == null)
+            {
+                done = true;
             }
         }
     }
@@ -88,6 +95,11 @@ public class Main {
                     done = true;
                     break;
                 }
+            }
+
+            if (line == null)
+            {
+                done = true;
             }
         }
     }
